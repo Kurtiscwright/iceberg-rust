@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="install.html">Install</a></li><li class="chapter-item expanded "><a href="download.html">Download</a></li><li class="chapter-item expanded "><a href="api.html">API</a></li><li class="chapter-item expanded affix "><li class="part-title">Developer Guide</li><li class="chapter-item expanded "><a href="CONTRIBUTING.html">Contributing</a></li><li class="chapter-item expanded "><a href="release.html" class="active">Release</a></li><li class="chapter-item expanded affix "><li class="part-title">Reference</li><li class="chapter-item expanded "><a href="reference/podman.html">Using Podman instead of Docker</a></li><li class="chapter-item expanded "><a href="reference/orbstack.html">OrbStack as a docker alternative</a></li><li class="chapter-item expanded "><a href="reference/setup_gpg.html">Setup GPG key</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="install.html">Install</a></li><li class="chapter-item expanded "><a href="download.html">Download</a></li><li class="chapter-item expanded "><a href="api.html">API</a></li><li class="chapter-item expanded affix "><li class="part-title">Developer Guide</li><li class="chapter-item expanded "><a href="CONTRIBUTING.html">Contributing</a></li><li class="chapter-item expanded "><a href="release.html" class="active">Release</a></li><li class="chapter-item expanded affix "><li class="part-title">Reference</li><li class="chapter-item expanded "><a href="reference/container-runtimes.html">Container Runtimes</a></li><li class="chapter-item expanded "><a href="reference/setup_gpg.html">Setup GPG key</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -297,9 +297,9 @@ Our release page will only display ASF releases instead of GitHub Releases.</p>
 <li>Create a new branch named by <code>release-${release_version}</code> from the tag</li>
 <li>Generate the release candidate artifacts under <code>dist</code>, including:
 <ul>
-<li><code>apache-iceberg-rust-${release_version}-src.tar.gz</code></li>
-<li><code>apache-iceberg-rust-${release_version}-src.tar.gz.asc</code></li>
-<li><code>apache-iceberg-rust-${release_version}-src.tar.gz.sha512</code></li>
+<li><code>apache-iceberg-rust-${release_version}.tar.gz</code></li>
+<li><code>apache-iceberg-rust-${release_version}.tar.gz.asc</code></li>
+<li><code>apache-iceberg-rust-${release_version}.tar.gz.sha512</code></li>
 </ul>
 </li>
 <li>Check the header of the source code. This step needs docker to run.</li>
@@ -312,9 +312,9 @@ Our release page will only display ASF releases instead of GitHub Releases.</p>
 <p>For example:</p>
 <pre><code class="language-shell">&gt; tree dist
 dist
-├── apache-iceberg-rust-0.2.0-src.tar.gz
-├── apache-iceberg-rust-0.2.0-src.tar.gz.asc
-└── apache-iceberg-rust-0.2.0-src.tar.gz.sha512
+├── apache-iceberg-rust-0.2.0.tar.gz
+├── apache-iceberg-rust-0.2.0.tar.gz.asc
+└── apache-iceberg-rust-0.2.0.tar.gz.sha512
 </code></pre>
 <h3 id="upload-artifacts-to-the-svn-dist-repo"><a class="header" href="#upload-artifacts-to-the-svn-dist-repo">Upload artifacts to the SVN dist repo</a></h3>
 <p>SVN is required for this step.</p>
@@ -450,19 +450,20 @@ gpg --import KEYS
 <p>Verify the <code>.asc</code> file:</p>
 <pre><code class="language-bash">gpg --verify apache-iceberg-rust-*.tar.gz.asc
 </code></pre>
-<p>Expects: <code>&quot;apache-iceberg-rust-0.7.0-src.tar.gz: OK&quot;</code></p>
+<p>Expects: <code>gpg: Good signature from ...</code></p>
 </li>
 <li>
 <p>Verify the checksums: </p>
 <pre><code class="language-bash">shasum -a 512 -c apache-iceberg-rust-*.tar.gz.sha512
 </code></pre>
-<p>Expects: <code>gpg: Good signature from ...</code></p>
+<p>Expects: <code>&quot;apache-iceberg-rust-...tar.gz: OK&quot;</code></p>
 </li>
 <li>
 <p>Verify build and test:</p>
 <pre><code class="language-bash">tar -xzf apache-iceberg-rust-*.tar.gz
 cd apache-iceberg-rust-*/
-make build &amp;&amp; make test
+</code></pre>
+<pre><code class="language-bash">make build &amp;&amp; make test
 </code></pre>
 </li>
 <li>
@@ -484,8 +485,6 @@ git push origin &quot;v${iceberg_version}&quot;
 <h3 id="publish-artifacts-to-svn-release-branch"><a class="header" href="#publish-artifacts-to-svn-release-branch">Publish artifacts to SVN RELEASE branch</a></h3>
 <pre><code class="language-shell">svn mv https://dist.apache.org/repos/dist/dev/iceberg/apache-iceberg-rust-${release_version} https://dist.apache.org/repos/dist/release/iceberg/apache-iceberg-rust-${iceberg_version} -m &quot;Release Apache Iceberg Rust ${iceberg_version}&quot;
 </code></pre>
-<h3 id="change-iceberg-rust-website-download-link"><a class="header" href="#change-iceberg-rust-website-download-link">Change Iceberg Rust Website download link</a></h3>
-<p>Update the download link in <code>website/src/download.md</code> to the new release version.</p>
 <h3 id="create-a-github-release"><a class="header" href="#create-a-github-release">Create a GitHub Release</a></h3>
 <ul>
 <li>Click <a href="https://github.com/apache/iceberg-rust/releases/new">here</a> to create a new release.</li>
@@ -541,7 +540,7 @@ On behalf of Apache Iceberg Community
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="reference/podman.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="reference/container-runtimes.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -555,7 +554,7 @@ On behalf of Apache Iceberg Community
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="reference/podman.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="reference/container-runtimes.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

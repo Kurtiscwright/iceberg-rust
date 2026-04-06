@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["IcebergTableScan"]};
+window.SIDEBAR_ITEMS = {"fn":["convert_filters_to_predicate","project_with_partition"],"struct":["IcebergTableScan"]};

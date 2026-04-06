@@ -1,1 +1,0 @@
-searchState.loadedDescShard("iceberg_sqllogictest", 0, "")
